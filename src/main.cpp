@@ -92,7 +92,17 @@ int main() {
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
 
-          auto coeffs = polyfit(ptsx, ptsy, 1);
+          Eigen::VectorXd x (ptsx.size());
+          Eigen::VectorXd y (ptsy.size());
+
+          for (int i = 0; i < ptsx.size() ; ++i) {
+            x[i] = ptsx[i];
+          }
+
+          for (int i = 0; i < ptsy.size() ; ++i) {
+            y[i] = ptsy[i];
+          }
+          auto coeffs = polyfit(x, y, 3);
           double cte = polyeval(coeffs, px) - py;
           // Due to the sign starting at 0, the orientation error is -f'(x).
           // derivative of coeffs[0] + coeffs[1] * x -> coeffs[1]
