@@ -95,27 +95,19 @@ int main() {
           Eigen::VectorXd x (ptsx.size());
           Eigen::VectorXd y (ptsy.size());
 
-          for (int i = 0; i < ptsx.size() ; ++i) {
-            x[i] = ptsx[i];
+          assert(ptsx.size() == ptsy.size());
+          for (auto i=0; i<ptsx.size() ; ++i){
+            x(i) =   cos(psi) * (ptsx[i] - px) + sin(psi) * (ptsy[i] - py);
+            y(i) =  -sin(psi) * (ptsx[i] - px) + cos(psi) * (ptsy[i] - py);
           }
 
-          for (int i = 0; i < ptsy.size() ; ++i) {
-            y[i] = ptsy[i];
-          }
           auto coeffs = polyfit(x, y, 3);
-          double cte = polyeval(coeffs, px) - py;
-          // Due to the sign starting at 0, the orientation error is -f'(x).
-          // derivative of coeffs[0] + coeffs[1] * x -> coeffs[1]
-          double epsi = psi - atan(coeffs[1]);
+          double cte = polyeval(coeffs, 0);
+          double epsi = - atan(coeffs[1]);
 
-          /*
-          * TODO: Calculate steering angle and throttle using MPC.
-          *
-          * Both are in between [-1, 1].
-          *
-          */
           Eigen::VectorXd state(6);
-          state << px, py, psi, v, cte, epsi;
+          state << 0, 0, 0, v, cte, epsi;
+
           auto vars = mpc.Solve(state, coeffs);
           double steer_value = state[6];
           double throttle_value = state[7];
