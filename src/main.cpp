@@ -101,6 +101,8 @@ int main() {
             y(i) =  -sin(psi) * (ptsx[i] - px) + cos(psi) * (ptsy[i] - py);
           }
 
+          // TODO deal latency
+
           auto coeffs = polyfit(x, y, 3);
           double cte = polyeval(coeffs, 0);
           double epsi = - atan(coeffs[1]);
