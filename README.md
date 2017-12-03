@@ -3,6 +3,8 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Rubric specification description can be found in Description.md
+
 ## Dependencies
 
 * cmake >= 3.5
